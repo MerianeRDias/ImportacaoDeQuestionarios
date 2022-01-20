@@ -19,6 +19,7 @@ namespace ImportacaoDeQuestionarios.Conexoes
 
         }
 
+
         public void InserirDados(Entidades.Cliente cliente)
         {
             try
@@ -47,5 +48,60 @@ namespace ImportacaoDeQuestionarios.Conexoes
 
         }
 
+        public void AtualizarDados(Entidades.Cliente cliente)
+        {
+            try
+            {
+                _conexao.Open();
+
+                string sql = @"UPDATE Cliente
+                                   SET Nome = @Nome
+                                      ,Genero = @Genero
+                                      ,Nacionalidade = @Nacionalidade
+                                      ,Idade = @Idade
+                                 WHERE Cpf = @Cpf";
+
+                using (SqlCommand cmd = new SqlCommand(sql, _conexao))
+                {
+                    cmd.Parameters.AddWithValue("Cpf", "32502875611");
+                    cmd.Parameters.AddWithValue("Nome", "Sol");
+                    cmd.Parameters.AddWithValue("Genero", "F");
+                    cmd.Parameters.AddWithValue("Idade", 20);
+                    cmd.Parameters.AddWithValue("Nacionalidade", "Brasileira");
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            finally
+            {
+                _conexao.Close();
+            }
+
+        }
+
+        public bool VerificarExistenciaCliente(Entidades.Cliente cliente)
+        {
+          
+         
+            try
+            {
+                _conexao.Open();
+
+                string sql = @"select Count(Cpf) AS total from Cliente WHERE Cpf = @Cpf;";
+
+                using (SqlCommand cmd = new SqlCommand(sql, _conexao))
+                {
+                    cmd.Parameters.AddWithValue("cpf", "32502875611");
+                    return Convert.ToBoolean(cmd.ExecuteScalar());
+                    
+                }
+            }
+            finally
+            {
+                _conexao.Close();
+            }
+            
+
+        }
     }
+
 }

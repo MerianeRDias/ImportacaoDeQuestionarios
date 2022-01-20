@@ -39,7 +39,15 @@ namespace ImportacaoDeQuestionarios
             var sql = new Conexoes.Sql();
             foreach (var cliente in clientes)
             {
-                sql.InserirDados(cliente);
+                if (sql.VerificarExistenciaCliente(cliente) == true)
+                {
+                    sql.AtualizarDados(cliente);
+                }
+                else
+                {
+                    sql.InserirDados(cliente);
+                }
+               
             }
         }
     }
