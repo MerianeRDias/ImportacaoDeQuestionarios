@@ -14,7 +14,7 @@ namespace ImportacaoDeQuestionarios.Conexoes
 
         public Sql()
         {
-            string conexao = System.IO.File.ReadAllText(@"C:\Users\Meriane\Documents\RumoAcademy\VisualStudio\conexao\stringConexao.txt");
+            string conexao = System.IO.File.ReadAllText(@"C:\Users\Meriane\Documents\RumoAcademy\VisualStudio\conexao\stringConexaoES01.txt");
             this._conexao = new SqlConnection(conexao);
 
         }
@@ -63,11 +63,11 @@ namespace ImportacaoDeQuestionarios.Conexoes
 
                 using (SqlCommand cmd = new SqlCommand(sql, _conexao))
                 {
-                    cmd.Parameters.AddWithValue("Cpf", "32502875611");
-                    cmd.Parameters.AddWithValue("Nome", "Sol");
-                    cmd.Parameters.AddWithValue("Genero", "F");
-                    cmd.Parameters.AddWithValue("Idade", 20);
-                    cmd.Parameters.AddWithValue("Nacionalidade", "Brasileira");
+                    cmd.Parameters.AddWithValue("Cpf", cliente.Cpf);
+                    cmd.Parameters.AddWithValue("Nome", cliente.Nome);
+                    cmd.Parameters.AddWithValue("Genero", cliente.Sexo);
+                    cmd.Parameters.AddWithValue("Idade", cliente.Idade);
+                    cmd.Parameters.AddWithValue("Nacionalidade", cliente.Nacionalidade);
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -78,7 +78,7 @@ namespace ImportacaoDeQuestionarios.Conexoes
 
         }
 
-        public bool VerificarExistenciaCliente(Entidades.Cliente cliente)
+        public bool VerificarExistenciaCliente(string cpf)
         {
           
          
@@ -90,7 +90,7 @@ namespace ImportacaoDeQuestionarios.Conexoes
 
                 using (SqlCommand cmd = new SqlCommand(sql, _conexao))
                 {
-                    cmd.Parameters.AddWithValue("cpf", "32502875611");
+                    cmd.Parameters.AddWithValue("cpf", cpf);
                     return Convert.ToBoolean(cmd.ExecuteScalar());
                     
                 }
